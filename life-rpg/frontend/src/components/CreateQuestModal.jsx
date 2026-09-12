@@ -91,8 +91,8 @@ export const CreateQuestModal = ({ isOpen, onClose, onQuestCreated }) => {
         }}
       >
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
-          <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '1.2rem', color: 'var(--color-gold-bright)' }}>
-            📜 Inscribe New Quest
+          <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '1.25rem', color: 'var(--color-gold-bright)' }}>
+            Inscribe New Quest
           </h2>
           <button
             onClick={onClose}
@@ -189,9 +189,9 @@ export const CreateQuestModal = ({ isOpen, onClose, onQuestCreated }) => {
                       }}>
                         {cfg.label}
                       </span>
-                      <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#ffd700' }}>
-                        +{cfg.runes} XP / +{cfg.echoes} 💎
-                      </span>
+                      <div style={{ fontFamily: 'var(--font-stat)', fontSize: '0.75rem', color: 'var(--color-rune)' }}>
+                        +{cfg.runes} RUNES / +{cfg.echoes} 💎
+                      </div>
                     </div>
                     <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>
                       {cfg.desc}

@@ -85,7 +85,7 @@ export const LandingPage = () => {
                 className="pixel-btn pixel-btn-gold"
                 style={{ padding: '0.9rem 1.8rem', fontSize: '0.85rem' }}
               >
-                ⚔️ Enter The Lands Between
+                Enter The Lands Between
               </Link>
             ) : (
               <>

@@ -112,7 +112,7 @@ async def get_boss_detail(boss_id: str, current_user: dict = Depends(get_current
 
 
 @router.post("/api/bosses/{boss_id}/fight")
-async def fight_boss(boss_id: str, current_user: dict = Depends(get_current_user)):
+async def fight_boss(boss_id: str, simulate_only: bool = False, current_user: dict = Depends(get_current_user)):
     user_id = current_user["_id"]
     char = await characters_col().find_one({"user_id": user_id})
     if not char:
@@ -134,6 +134,18 @@ async def fight_boss(boss_id: str, current_user: dict = Depends(get_current_user
     player_vigor = stats.get("effective_vigor", 100)
     player_strength = stats.get("effective_strength", 10)
     player_poise = stats.get("effective_poise", 0)
+
+    # Calculate consumed items (shields) early for simulate_only
+    consumed_items_info = []
+    for slot_name in ["weapon", "helmet", "armor", "accessory"]:
+        eq_slot = await equipped_items_col().find_one({"user_id": user_id, "slot": slot_name})
+        if eq_slot and eq_slot.get("item_id"):
+            eq_item = await items_col().find_one({"_id": eq_slot["item_id"]})
+            if eq_item and (eq_item.get("is_consumable") or "shield" in eq_item.get("item_key", "")):
+                consumed_items_info.append({"slot": slot_name, "name": eq_item.get("name", slot_name.capitalize())})
+
+    shield_consumed = len(consumed_items_info) > 0
+    consumed_shield_name = ", ".join([i["name"] for i in consumed_items_info]) if consumed_items_info else None
 
     # Simulate combat deterministically at full HP
     fight_res = simulate_boss_fight(
@@ -157,6 +169,29 @@ async def fight_boss(boss_id: str, current_user: dict = Depends(get_current_user
     defeated_ids = [str(b) for b in char.get("bosses_defeated", [])]
     is_already_defeated = str(boss["_id"]) in defeated_ids or boss.get("boss_key") in defeated_ids
     first_time_victory = False
+
+    # Pre-calculate base runes/echoes for simulation
+    base_runes_earned = 0
+    base_echoes_earned = 0
+    if outcome == "victory":
+        if not is_already_defeated:
+            rewards = boss.get("rewards", {})
+            base_echoes_earned = rewards.get("echoes", 0)
+            base_runes_earned = rewards.get("runes", 0)
+
+    if simulate_only:
+        return {
+            "outcome": outcome,
+            "battle_log": fight_res["battle_log"],
+            "runes_earned": base_runes_earned,
+            "echoes_earned": base_echoes_earned,
+            "items_earned": [],
+            "newly_awarded_badges": [],
+            "first_time_victory": not is_already_defeated if outcome == "victory" else False,
+            "is_already_defeated": is_already_defeated,
+            "shield_consumed": shield_consumed,
+            "consumed_shield_name": consumed_shield_name,
+        }
 
     if outcome == "victory":
         if is_already_defeated:
@@ -266,22 +301,13 @@ async def fight_boss(boss_id: str, current_user: dict = Depends(get_current_user
             {"$set": {"current_hp": player_vigor, "updated_at": now}},
         )
 
-    # Check all equipment slots for consumable items (shields, helms, armor, rings, talismans)
-    consumed_items = []
-    for slot_name in ["weapon", "helmet", "armor", "accessory"]:
-        eq_slot = await equipped_items_col().find_one({"user_id": user_id, "slot": slot_name})
-        if eq_slot and eq_slot.get("item_id"):
-            eq_item = await items_col().find_one({"_id": eq_slot["item_id"]})
-            if eq_item and (eq_item.get("is_consumable") or "shield" in eq_item.get("item_key", "")):
-                consumed_items.append(eq_item.get("name", slot_name.capitalize()))
-                # Unequip and consume without restoring to pouch
-                await equipped_items_col().update_one(
-                    {"user_id": user_id, "slot": slot_name},
-                    {"$set": {"item_id": None, "equipped_at": now}},
-                )
-
-    shield_consumed = len(consumed_items) > 0
-    consumed_shield_name = ", ".join(consumed_items) if consumed_items else None
+    # Actual shield consumption in DB
+    if shield_consumed:
+        for info in consumed_items_info:
+            await equipped_items_col().update_one(
+                {"user_id": user_id, "slot": info["slot"]},
+                {"$set": {"item_id": None, "equipped_at": now}},
+            )
 
     # Save fight log
     await boss_fight_logs_col().insert_one({

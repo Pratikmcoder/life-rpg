@@ -55,11 +55,8 @@ export const BadgesPage = () => {
             color: 'var(--color-gold-bright)',
             marginBottom: '0.25rem',
           }}>
-            🏅 HALL OF MEDALLIONS
+            HALL OF MEDALLIONS
           </h1>
-          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-            Permanent records of your triumphs, streaks, and legendary feats.
-          </p>
         </div>
 
         {/* Progress Pill */}
@@ -69,12 +66,12 @@ export const BadgesPage = () => {
           padding: '0.6rem 1rem',
           minWidth: '180px',
         }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.25rem' }}>
-            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.6rem', color: 'var(--color-gold)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: '0.5rem' }}>
+            <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.65rem', color: 'var(--color-gold)', marginRight: '1rem' }}>
               MEDALLIONS
             </span>
-            <span style={{ fontFamily: 'var(--font-stat)', fontSize: '1.2rem', color: '#fff' }}>
-              {earnedCount} / {totalCount} ({progressPct}%)
+            <span style={{ fontFamily: 'var(--font-stat)', fontSize: '1.25rem', color: '#fff', lineHeight: 1 }}>
+              {earnedCount} / {totalCount}
             </span>
           </div>
           <div className="stat-bar-container" style={{ height: '8px' }}>

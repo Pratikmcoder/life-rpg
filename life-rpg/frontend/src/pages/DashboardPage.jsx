@@ -70,9 +70,6 @@ export const DashboardPage = () => {
           }}>
             WELCOME, {character?.name || 'TARNISHED'}
           </h1>
-          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-            The Flame of Grace awaits your deeds. Slay your daily tasks to claim your Runes.
-          </p>
         </div>
 
         <button
@@ -80,7 +77,7 @@ export const DashboardPage = () => {
           className="pixel-btn pixel-btn-gold"
           style={{ fontSize: '0.75rem', padding: '0.7rem 1.2rem' }}
         >
-          📜 + Inscribe New Quest
+          + Inscribe New Quest
         </button>
       </div>
 
@@ -88,7 +85,7 @@ export const DashboardPage = () => {
       <div className="grid-cols-1-2">
         {/* Left: Character Stats Card */}
         <aside>
-          <CharacterCard />
+          <CharacterCard stretch={true} />
         </aside>
 
         {/* Right: Quests & Boss Encounter */}
@@ -133,7 +130,7 @@ export const DashboardPage = () => {
                   }}>
                     {nextBoss.name}
                   </div>
-                  <div style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)' }}>
+                  <div style={{ fontSize: '0.9rem', color: 'var(--color-text-dim)' }}>
                     Boss Stats: {nextBoss.hp} HP / {nextBoss.ap} AP / {nextBoss.defense} DEF
                   </div>
                 </div>
@@ -144,13 +141,13 @@ export const DashboardPage = () => {
                 className="pixel-btn pixel-btn-crimson"
                 style={{ fontSize: '0.75rem', padding: '0.65rem 1.1rem' }}
               >
-                ⚔️ Enter Arena
+                Enter Arena
               </Link>
             </div>
           )}
 
           {/* Today's Active Quests */}
-          <div className="pixel-panel" style={{ padding: '1.25rem' }}>
+          <div className="pixel-panel" style={{ padding: '1.25rem', flexGrow: 1 }}>
             <div style={{
               display: 'flex',
               justifyContent: 'space-between',
@@ -196,15 +193,13 @@ export const DashboardPage = () => {
                 <div style={{ fontFamily: 'var(--font-title)', fontSize: '1rem', color: '#fff', marginBottom: '0.25rem' }}>
                   No Active Quests Inscribed
                 </div>
-                <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
-                  Your scroll is empty. Add your real-world tasks to gather Runes and keep your Flame alive!
-                </p>
+
                 <button
                   onClick={() => setIsModalOpen(true)}
                   className="pixel-btn pixel-btn-gold"
                   style={{ fontSize: '0.75rem' }}
                 >
-                  📜 + Inscribe First Quest
+                  + Inscribe First Quest
                 </button>
               </div>
             ) : (

@@ -2,8 +2,11 @@ import React, { useState, useEffect, useMemo } from 'react'
 import api from '../api/client'
 import { QuestItem } from '../components/QuestItem'
 import { CreateQuestModal } from '../components/CreateQuestModal'
+import { playSound } from '../utils/sfx'
+import { useAuth } from '../context/AuthContext'
 
 export const QuestsPage = () => {
+  const { soundMuted } = useAuth()
   const [quests, setQuests] = useState([])
   const [filterTab, setFilterTab] = useState('all') // 'active' | 'completed' | 'all'
   const [dateFilter, setDateFilter] = useState('all') // 'all' | 'today' | 'tomorrow' | 'upcoming' | 'overdue'
@@ -223,19 +226,16 @@ export const QuestsPage = () => {
             color: 'var(--color-gold-bright)',
             marginBottom: '0.25rem',
           }}>
-            📜 QUEST & HABIT CODEX
+            QUEST & HABIT CODEX
           </h1>
-          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-            Tasks categorized by date. Complete daily habits and milestone quests to earn Runes & Echoes.
-          </p>
         </div>
 
         <button
-          onClick={() => setIsModalOpen(true)}
+          onClick={() => { playSound('click', soundMuted); setIsModalOpen(true); }}
           className="pixel-btn pixel-btn-gold"
           style={{ fontSize: '0.75rem', padding: '0.7rem 1.2rem' }}
         >
-          📜 + Inscribe New Quest
+          + Inscribe New Quest
         </button>
       </div>
 
@@ -246,15 +246,15 @@ export const QuestsPage = () => {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
             <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap' }}>
               {[
-                { id: 'all', label: '📅 All Dates' },
-                { id: 'today', label: '⚔️ Today' },
-                { id: 'tomorrow', label: '⏳ Tomorrow' },
-                { id: 'upcoming', label: '🔭 Upcoming' },
-                { id: 'overdue', label: '⚠️ Overdue' },
+                { id: 'all', label: 'All Dates' },
+                { id: 'today', label: 'Today' },
+                { id: 'tomorrow', label: 'Tomorrow' },
+                { id: 'upcoming', label: 'Upcoming' },
+                { id: 'overdue', label: 'Overdue' },
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setDateFilter(tab.id)}
+                  onClick={() => { playSound('click', soundMuted); setDateFilter(tab.id); }}
                   className="pixel-btn"
                   style={{
                     fontSize: '0.65rem',
@@ -274,7 +274,7 @@ export const QuestsPage = () => {
               {['all', 'active', 'completed'].map((tab) => (
                 <button
                   key={tab}
-                  onClick={() => setFilterTab(tab)}
+                  onClick={() => { playSound('click', soundMuted); setFilterTab(tab); }}
                   className="pixel-btn"
                   style={{
                     fontSize: '0.65rem',
@@ -337,22 +337,16 @@ export const QuestsPage = () => {
           Reading Ancient Inscriptions...
         </div>
       ) : filteredQuests.length === 0 ? (
-        <div className="pixel-panel" style={{ padding: '3rem 1rem', textAlign: 'center' }}>
-          <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📭</div>
-          <h3 style={{ fontFamily: 'var(--font-title)', color: '#fff', marginBottom: '0.4rem' }}>
-            No Quests in this Category
+        <div className="pixel-panel" style={{ textAlign: 'center', padding: '3rem 1rem' }}>
+          <div style={{ fontSize: '2.5rem', marginBottom: '1rem', opacity: 0.5 }}>📖</div>
+          <h3 style={{ fontFamily: 'var(--font-title)', color: 'var(--color-gold)', fontSize: '1.2rem', marginBottom: '0.5rem' }}>
+            No Quests Found
           </h3>
-          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem', marginBottom: '1.25rem' }}>
-            {searchQuery
-              ? `No quests matched "${searchQuery}".`
-              : 'Inscribe a task for this date to begin earning Runes.'}
+          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem', marginBottom: '1.5rem' }}>
+            Your codex is empty for this filter.
           </p>
-          <button
-            onClick={() => setIsModalOpen(true)}
-            className="pixel-btn pixel-btn-gold"
-            style={{ fontSize: '0.75rem' }}
-          >
-            📜 Inscribe A Quest
+          <button onClick={() => { playSound('click', soundMuted); setIsModalOpen(true); }} className="pixel-btn pixel-btn-gold" style={{ fontSize: '0.75rem' }}>
+            Inscribe A Quest
           </button>
         </div>
       ) : (

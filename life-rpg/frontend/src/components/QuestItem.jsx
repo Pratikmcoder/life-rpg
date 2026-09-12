@@ -178,7 +178,7 @@ export const QuestItem = ({ quest, onQuestUpdated, onQuestDeleted }) => {
           d.setDate(d.getDate() + 1)
           const isTomorrow = quest.due_date === d.toISOString().split('T')[0]
 
-          const label = isToday ? '📅 Today' : isTomorrow ? '📅 Tomorrow' : isOverdue ? `⚠️ ${quest.due_date}` : `📅 ${quest.due_date}`
+          const label = isToday ? 'Today' : isTomorrow ? 'Tomorrow' : isOverdue ? `Overdue: ${quest.due_date}` : `${quest.due_date}`
           const color = isOverdue ? '#ff7675' : isToday ? 'var(--color-gold-bright)' : 'var(--color-text-dim)'
           const bg = isOverdue ? 'rgba(231, 76, 60, 0.15)' : 'rgba(255, 255, 255, 0.05)'
           const borderColor = isOverdue ? '#e74c3c' : 'var(--color-border)'
@@ -206,14 +206,15 @@ export const QuestItem = ({ quest, onQuestUpdated, onQuestDeleted }) => {
         {/* Reward pills */}
         <div style={{
           display: 'flex',
-          gap: '0.4rem',
+          gap: '0.6rem',
+          alignItems: 'center',
           fontFamily: 'var(--font-stat)',
           fontSize: '1.05rem',
         }}>
-          <span style={{ color: 'var(--color-gold-bright)' }}>
-            +{quest.rune_reward} XP
+          <span style={{ color: 'var(--color-rune)', fontSize: '0.85rem', display: 'flex', alignItems: 'center' }}>
+            +{quest.rune_reward} RUNES
           </span>
-          <span style={{ color: 'var(--color-echo-bright)' }}>
+          <span style={{ color: 'var(--color-echo-bright)', display: 'flex', alignItems: 'center' }}>
             +{quest.echo_reward} 💎
           </span>
         </div>

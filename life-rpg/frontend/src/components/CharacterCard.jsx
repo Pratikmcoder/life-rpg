@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { PixelAvatar } from './PixelAvatar'
 import { useAuth } from '../context/AuthContext'
 
-export const CharacterCard = () => {
+export const CharacterCard = ({ stretch = false, hideStreak = false }) => {
   const { character } = useAuth()
 
   if (!character) {
@@ -35,13 +35,15 @@ export const CharacterCard = () => {
   } = character
 
   const currentLevel = grace_level || level || 1
-  const displayCurrentRunes = current_runes ?? runes_in_level ?? 0
-  const displayNeededRunes = next_level_runes ?? runes_to_next_level ?? 100
-  const displayProgressPct = progress_pct ?? (displayNeededRunes > 0 ? Math.round((displayCurrentRunes / displayNeededRunes) * 100) : 100)
+  const baseCurrent = current_runes ?? runes_in_level ?? 0
+  const baseNeeded = next_level_runes ?? runes_to_next_level ?? 100
+  const displayCurrentRunes = total_runes ?? 0
+  const displayNeededRunes = displayCurrentRunes - baseCurrent + baseNeeded
+  const displayProgressPct = progress_pct ?? (baseNeeded > 0 ? Math.round((baseCurrent / baseNeeded) * 100) : 100)
   const streakPercent = Math.min(100, (daily_runes_today / 100) * 100)
 
   return (
-    <div className="pixel-panel" style={{ padding: '1.25rem' }}>
+    <div className="pixel-panel" style={{ padding: '1.25rem', height: stretch ? '100%' : 'auto', display: 'flex', flexDirection: 'column' }}>
       {/* 1. Character Info Header */}
       <div style={{ display: 'flex', gap: '1rem', alignItems: 'center', marginBottom: '1.25rem' }}>
         <PixelAvatar size={72} level={currentLevel} />
@@ -66,18 +68,6 @@ export const CharacterCard = () => {
           }}>
             Grace Level {currentLevel} Tarnished
           </div>
-          <div style={{
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: '0.35rem',
-            marginTop: '0.35rem',
-            fontSize: '0.85rem',
-            color: streak > 0 ? '#ff9f43' : 'var(--color-text-muted)',
-            fontFamily: 'var(--font-stat)',
-          }}>
-            <span>🔥</span>
-            <span>{streak} Day Flame Streak</span>
-          </div>
         </div>
       </div>
 
@@ -90,10 +80,10 @@ export const CharacterCard = () => {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem', fontSize: '0.75rem' }}>
           <span style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.65rem', color: 'var(--color-rune)' }}>
-            RUNES (XP)
+            RUNES
           </span>
           <span style={{ fontFamily: 'var(--font-stat)', fontSize: '1.2rem', color: 'var(--color-gold-bright)' }}>
-            {displayCurrentRunes} / {displayNeededRunes} ({displayProgressPct}%)
+            {displayCurrentRunes} / {displayNeededRunes}
           </span>
         </div>
         <div className="stat-bar-container" style={{ height: '12px', marginBottom: '0.4rem' }}>
@@ -102,9 +92,8 @@ export const CharacterCard = () => {
             style={{ width: `${displayProgressPct}%` }}
           />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'var(--color-text-muted)' }}>
-          <span>Total Gathered: {total_runes} Runes</span>
-          <span>Next: +{Math.max(0, displayNeededRunes - displayCurrentRunes)} XP</span>
+        <div style={{ fontSize: '0.85rem', color: 'var(--color-text-dim)', marginTop: '0.35rem' }}>
+          <span>TOTAL RUNES COLLECTED: {displayCurrentRunes}</span>
         </div>
       </div>
 
@@ -123,13 +112,10 @@ export const CharacterCard = () => {
           padding: '0.6rem 0.4rem',
         }}>
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: '#e74c3c', marginBottom: '0.2rem' }}>
-            BASE HP
+            VIGOR
           </div>
           <div style={{ fontFamily: 'var(--font-stat)', fontSize: '1.6rem', color: '#ff7675', lineHeight: 1 }}>
             {effective_vigor || base_vigor}
-          </div>
-          <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>
-            Vigor
           </div>
         </div>
 
@@ -140,13 +126,10 @@ export const CharacterCard = () => {
           padding: '0.6rem 0.4rem',
         }}>
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: '#f1c40f', marginBottom: '0.2rem' }}>
-            BASE AP
+            ATTACK
           </div>
           <div style={{ fontFamily: 'var(--font-stat)', fontSize: '1.6rem', color: '#ffeaa7', lineHeight: 1 }}>
             {effective_strength || base_strength}
-          </div>
-          <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>
-            Attack
           </div>
         </div>
 
@@ -157,26 +140,24 @@ export const CharacterCard = () => {
           padding: '0.6rem 0.4rem',
         }}>
           <div style={{ fontFamily: 'var(--font-pixel)', fontSize: '0.55rem', color: '#bdc3c7', marginBottom: '0.2rem' }}>
-            DEFENSE
+            POISE
           </div>
           <div style={{ fontFamily: 'var(--font-stat)', fontSize: '1.6rem', color: '#dfe6e9', lineHeight: 1 }}>
             {effective_poise || base_poise}
-          </div>
-          <div style={{ fontSize: '0.65rem', color: 'var(--color-text-muted)', marginTop: '0.2rem' }}>
-            Poise
           </div>
         </div>
       </div>
 
       {/* 4. Daily Flame Streak Tracker */}
-      <div style={{
+      {!hideStreak && (
+        <div style={{
         background: 'rgba(230, 126, 34, 0.08)',
         border: '1px solid rgba(230, 126, 34, 0.25)',
         padding: '0.75rem',
-        marginBottom: '1rem',
+        marginTop: 'auto',
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.35rem' }}>
-          <span style={{ fontSize: '0.75rem', color: '#f39c12', fontWeight: 'bold' }}>
+          <span style={{ fontSize: '0.9rem', color: '#f39c12', fontWeight: 'bold' }}>
             Today's Flame Fuel
           </span>
           <span style={{ fontFamily: 'var(--font-stat)', fontSize: '1.1rem', color: '#f39c12' }}>
@@ -192,10 +173,8 @@ export const CharacterCard = () => {
             }}
           />
         </div>
-        <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginTop: '0.35rem' }}>
-          Earn 100 Runes today to maintain your Flame streak.
         </div>
-      </div>
+      )}
     </div>
   )
 }

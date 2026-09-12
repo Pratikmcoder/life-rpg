@@ -87,11 +87,8 @@ export const SettingsPage = () => {
           color: 'var(--color-gold-bright)',
           marginBottom: '0.25rem',
         }}>
-          ⚙️ SANCTUARY SETTINGS
+          SANCTUARY SETTINGS
         </h1>
-        <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-          Configure your realm preferences, alter your name, or seal your credentials.
-        </p>
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>

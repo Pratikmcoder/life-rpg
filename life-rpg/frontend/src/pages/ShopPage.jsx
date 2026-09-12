@@ -147,11 +147,8 @@ export const ShopPage = () => {
             color: 'var(--color-gold-bright)',
             marginBottom: '0.25rem',
           }}>
-            🏛️ MERCHANT'S VAULT
+            MERCHANT'S VAULT
           </h1>
-          <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-            Exchange your earned Echoes for legendary weapons, armor, and medallions.
-          </p>
         </div>
 
         {/* Echoes Pill */}
@@ -179,10 +176,10 @@ export const ShopPage = () => {
       {/* Filter Tabs (Consumables removed as requested) */}
       <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1.5rem', flexWrap: 'wrap' }}>
         {[
-          { id: 'all', label: 'All Relics' },
-          { id: 'weapon', label: '⚔️ Weapons' },
-          { id: 'armor', label: '🛡️ Armor & Helmets' },
-          { id: 'accessory', label: '📿 Accessories' },
+          { id: 'all', label: 'All Items' },
+          { id: 'weapon', label: 'Weapons' },
+          { id: 'armor', label: 'Armor & Helmets' },
+          { id: 'accessory', label: 'Accessories' },
         ].map((tab) => (
           <button
             key={tab.id}
@@ -261,65 +258,6 @@ export const ShopPage = () => {
                   </div>
                 )}
 
-                {/* Status Badges in Top Right */}
-                {isSoldOut ? (
-                  <div style={{
-                    position: 'absolute',
-                    top: '0.75rem',
-                    right: '0.75rem',
-                    background: 'rgba(90, 20, 20, 0.9)',
-                    border: '1px solid #e74c3c',
-                    color: '#ff7675',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '0.55rem',
-                    padding: '2px 6px',
-                    zIndex: 5,
-                  }}>
-                    SOLD OUT
-                  </div>
-                ) : isLocked ? (
-                  <div style={{
-                    position: 'absolute',
-                    top: '0.75rem',
-                    right: '0.75rem',
-                    background: 'rgba(90, 20, 20, 0.9)',
-                    border: '1px solid #e74c3c',
-                    color: '#ff7675',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '0.55rem',
-                    padding: '2px 6px',
-                  }}>
-                    🔒 LOCKED
-                  </div>
-                ) : item.is_one_time ? (
-                  <div style={{
-                    position: 'absolute',
-                    top: '0.75rem',
-                    right: '0.75rem',
-                    background: 'rgba(241, 196, 15, 0.15)',
-                    border: '1px solid #f1c40f',
-                    color: '#f1c40f',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '0.5rem',
-                    padding: '2px 6px',
-                  }}>
-                    ⭐ UNIQUE
-                  </div>
-                ) : item.is_consumable ? (
-                  <div style={{
-                    position: 'absolute',
-                    top: '0.75rem',
-                    right: '0.75rem',
-                    background: 'rgba(52, 152, 219, 0.15)',
-                    border: '1px solid #3498db',
-                    color: '#3498db',
-                    fontFamily: 'var(--font-pixel)',
-                    fontSize: '0.5rem',
-                    padding: '2px 6px',
-                  }}>
-                    1 BATTLE
-                  </div>
-                ) : null}
 
                 {/* Top Item Info */}
                 <div>
@@ -359,7 +297,7 @@ export const ShopPage = () => {
                   </div>
 
                   <p style={{
-                    fontSize: '0.8rem',
+                    fontSize: '1.15rem',
                     color: 'var(--color-text-dim)',
                     lineHeight: 1.4,
                     marginBottom: '1rem',
@@ -371,17 +309,17 @@ export const ShopPage = () => {
                   <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                     {item.strength_bonus > 0 && (
                       <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#f1c40f', background: 'rgba(241,196,15,0.1)', padding: '2px 6px', border: '1px solid #7a6530' }}>
-                        +{item.strength_bonus} AP
+                        +{item.strength_bonus} ATTACK
                       </span>
                     )}
                     {item.poise_bonus > 0 && (
                       <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7', background: 'rgba(189,195,199,0.1)', padding: '2px 6px', border: '1px solid #7f8c8d' }}>
-                        +{item.poise_bonus} DEF
+                        +{item.poise_bonus} POISE
                       </span>
                     )}
                     {item.vigor_bonus > 0 && (
                       <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#e74c3c', background: 'rgba(231,76,60,0.1)', padding: '2px 6px', border: '1px solid #8b1a1a' }}>
-                        +{item.vigor_bonus} Base HP
+                        +{item.vigor_bonus} VIGOR
                       </span>
                     )}
                   </div>
@@ -411,14 +349,15 @@ export const ShopPage = () => {
                     </div>
                   ) : isLocked ? (
                     <div style={{
-                      fontSize: '0.75rem',
+                      fontFamily: 'var(--font-pixel)',
+                      fontSize: '0.55rem',
                       color: '#e74c3c',
                       background: 'rgba(139,26,26,0.15)',
                       padding: '0.5rem',
                       border: '1px solid #631919',
                       textAlign: 'center',
                     }}>
-                      ⚠️ {item.lock_reason}
+                      🔒 {item.lock_reason.toUpperCase()}
                     </div>
                   ) : (
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '0.5rem' }}>

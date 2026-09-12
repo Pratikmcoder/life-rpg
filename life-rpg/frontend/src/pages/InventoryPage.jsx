@@ -124,23 +124,16 @@ export const InventoryPage = () => {
           color: 'var(--color-gold-bright)',
           marginBottom: '0.25rem',
         }}>
-          🎒 TARNISHED POUCH & LOADOUT
+          TARNISHED POUCH & LOADOUT
         </h1>
-        <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem' }}>
-          Equip powerful weapons, helmets, armors, and amulets to boost your combat stats.
-        </p>
       </div>
 
-      <div className="grid-cols-1-2">
-        {/* Left: Character Card */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-          <CharacterCard />
-        </div>
+      {/* Top Section: Character & Active Loadout */}
+      <div className="grid-cols-1-2" style={{ marginBottom: '1.5rem', alignItems: 'stretch' }}>
+        <CharacterCard hideStreak={true} stretch={true} />
 
-        {/* Right: Active Equipment Loadout & Owned Pouch Inventory Grid */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
-          {/* 1. Active Equipment Loadout (Directly above pouch items list) */}
-          <div className="pixel-panel-gold" style={{ padding: '1.25rem' }}>
+        {/* Right: Active Equipment Loadout */}
+        <div className="pixel-panel-gold" style={{ padding: '1.25rem', height: '100%', display: 'flex', flexDirection: 'column' }}>
             <div style={{ marginBottom: '1rem' }}>
               <h2 style={{
                 fontFamily: 'var(--font-title)',
@@ -148,17 +141,15 @@ export const InventoryPage = () => {
                 color: 'var(--color-gold-bright)',
                 marginBottom: '0.25rem',
               }}>
-                ⚔️ Active Equipment Loadout
+                Active Equipment Loadout
               </h2>
-              <p style={{ color: 'var(--color-text-dim)', fontSize: '0.75rem', margin: 0 }}>
-                Items currently equipped and boosting your combat power. Consumable relics are unequipped upon battle.
-              </p>
             </div>
 
             <div style={{
               display: 'grid',
               gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
               gap: '0.85rem',
+              flexGrow: 1,
             }}>
               {['weapon', 'helmet', 'armor', 'accessory'].map((slotKey) => {
                 const item = equipped[slotKey]
@@ -200,37 +191,37 @@ export const InventoryPage = () => {
                         }}>
                           {SLOT_ICONS[slotKey]} {slotKey}
                         </span>
-                        {isConsumable && (
-                          <span style={{
-                            fontFamily: 'var(--font-pixel)',
-                            fontSize: '0.45rem',
-                            background: 'rgba(231, 76, 60, 0.2)',
-                            color: '#ff7675',
-                            border: '1px solid #c0392b',
-                            padding: '1px 4px',
-                          }}>
-                            1 BATTLE
-                          </span>
-                        )}
+
                       </div>
 
                       {/* Icon & Name */}
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.65rem', marginBottom: '0.5rem' }}>
-                        <span style={{ fontSize: '1.6rem' }}>{icon}</span>
+                      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem' }}>
+                        <div style={{
+                          fontSize: '2rem',
+                          width: '48px',
+                          height: '48px',
+                          background: 'rgba(0,0,0,0.5)',
+                          border: `1px solid ${rarityColor}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                        }}>
+                          {icon}
+                        </div>
                         <div>
                           <div style={{
                             fontFamily: 'var(--font-title)',
-                            fontSize: '0.85rem',
-                            color: item ? rarityColor : 'var(--color-text-muted)',
+                            fontSize: '1rem',
                             fontWeight: item ? 'bold' : 'normal',
-                            lineHeight: 1.2,
+                            color: item ? rarityColor : 'var(--color-text-muted)',
+                            marginBottom: '0.2rem',
                           }}>
                             {item ? item.name : 'Empty Slot'}
                           </div>
                           {item && (
                             <div style={{
                               fontFamily: 'var(--font-pixel)',
-                              fontSize: '0.5rem',
+                              fontSize: '0.55rem',
                               color: 'var(--color-text-dim)',
                               textTransform: 'uppercase',
                             }}>
@@ -240,22 +231,22 @@ export const InventoryPage = () => {
                         </div>
                       </div>
 
-                      {/* Stat Bonuses */}
+                      {/* Stat summary */}
                       {item ? (
-                        <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
+                        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                           {item.strength_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#f1c40f' }}>
-                              +{item.strength_bonus} AP
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#f1c40f', background: 'rgba(241,196,15,0.1)', padding: '2px 6px', border: '1px solid #7a6530' }}>
+                              +{item.strength_bonus} ATTACK
                             </span>
                           )}
                           {item.poise_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7' }}>
-                              +{item.poise_bonus} DEF
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7', background: 'rgba(189,195,199,0.1)', padding: '2px 6px', border: '1px solid #4e595a' }}>
+                              +{item.poise_bonus} POISE
                             </span>
                           )}
                           {item.vigor_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#e74c3c' }}>
-                              +{item.vigor_bonus} HP
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#e74c3c', background: 'rgba(231,76,60,0.1)', padding: '2px 6px', border: '1px solid #751a1a' }}>
+                              +{item.vigor_bonus} VIGOR
                             </span>
                           )}
                         </div>
@@ -281,9 +272,10 @@ export const InventoryPage = () => {
               })}
             </div>
           </div>
+      </div>
 
-          {/* 2. Owned Pouch Inventory Grid (Directly below active loadout) */}
-          <div className="pixel-panel" style={{ padding: '1.25rem' }}>
+      {/* 2. Owned Pouch Inventory Grid (Full width below) */}
+      <div className="pixel-panel" style={{ padding: '1.25rem' }}>
             <div style={{ marginBottom: '1rem' }}>
               <h2 style={{
                 fontFamily: 'var(--font-title)',
@@ -291,11 +283,8 @@ export const InventoryPage = () => {
                 color: 'var(--color-gold)',
                 marginBottom: '0.25rem',
               }}>
-                📦 Pouch Items ({inventory.length})
+                Pouch Items ({inventory.length})
               </h2>
-              <p style={{ color: 'var(--color-text-dim)', fontSize: '0.75rem', margin: 0 }}>
-                Stored relics and equipment available to equip.
-              </p>
             </div>
 
             {isLoading ? (
@@ -315,7 +304,7 @@ export const InventoryPage = () => {
             ) : (
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
+                gridTemplateColumns: 'repeat(4, 1fr)',
                 gap: '1rem',
               }}>
                 {inventory.map((invItem) => {
@@ -359,20 +348,32 @@ export const InventoryPage = () => {
                       )}
 
                       <div>
-                        <div style={{ display: 'flex', gap: '0.6rem', alignItems: 'center', marginBottom: '0.6rem' }}>
-                          <span style={{ fontSize: '1.8rem' }}>{icon}</span>
+                        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem' }}>
+                          <div style={{
+                            fontSize: '2rem',
+                            width: '48px',
+                            height: '48px',
+                            background: 'rgba(0,0,0,0.5)',
+                            border: `1px solid ${rarityColor}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                          }}>
+                            {icon}
+                          </div>
                           <div>
                             <div style={{
                               fontFamily: 'var(--font-title)',
-                              fontSize: '0.85rem',
+                              fontSize: '1rem',
                               fontWeight: 'bold',
                               color: rarityColor,
+                              marginBottom: '0.2rem',
                             }}>
                               {item.name}
                             </div>
                             <div style={{
                               fontFamily: 'var(--font-pixel)',
-                              fontSize: '0.5rem',
+                              fontSize: '0.55rem',
                               color: 'var(--color-text-dim)',
                               textTransform: 'uppercase',
                             }}>
@@ -381,37 +382,25 @@ export const InventoryPage = () => {
                           </div>
                         </div>
 
-                        <p style={{ fontSize: '0.75rem', color: 'var(--color-text-dim)', marginBottom: '0.75rem', lineHeight: 1.3 }}>
+                        <p style={{ fontSize: '1.15rem', color: 'var(--color-text-dim)', marginBottom: '1rem', lineHeight: 1.4 }}>
                           {item.description}
                         </p>
 
-                        {/* Badges & Stat summary */}
-                        <div style={{ display: 'flex', gap: '0.35rem', flexWrap: 'wrap', marginBottom: '0.75rem' }}>
-                          {isConsumable && (
-                            <span style={{
-                              fontSize: '0.55rem',
-                              fontFamily: 'var(--font-pixel)',
-                              color: '#ff7675',
-                              background: 'rgba(231, 76, 60, 0.15)',
-                              border: '1px solid #c0392b',
-                              padding: '2px 5px',
-                            }}>
-                              ⚠️ Consumable (1 Battle)
-                            </span>
-                          )}
+                        {/* Stat summary */}
+                        <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                           {item.strength_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#f1c40f' }}>
-                              +{item.strength_bonus} AP
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#f1c40f', background: 'rgba(241,196,15,0.1)', padding: '2px 6px', border: '1px solid #7a6530' }}>
+                              +{item.strength_bonus} ATTACK
                             </span>
                           )}
                           {item.poise_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7' }}>
-                              +{item.poise_bonus} DEF
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7', background: 'rgba(189,195,199,0.1)', padding: '2px 6px', border: '1px solid #4e595a' }}>
+                              +{item.poise_bonus} POISE
                             </span>
                           )}
                           {item.vigor_bonus > 0 && (
-                            <span style={{ fontSize: '0.65rem', fontFamily: 'var(--font-stat)', color: '#e74c3c' }}>
-                              +{item.vigor_bonus} Base HP
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#e74c3c', background: 'rgba(231,76,60,0.1)', padding: '2px 6px', border: '1px solid #751a1a' }}>
+                              +{item.vigor_bonus} VIGOR
                             </span>
                           )}
                         </div>
@@ -425,7 +414,7 @@ export const InventoryPage = () => {
                           className="pixel-btn pixel-btn-gold"
                           style={{ width: '100%', fontSize: '0.65rem', padding: '0.45rem' }}
                         >
-                          ⚔️ Equip Item
+                          Equip Item
                         </button>
                       </div>
                     </div>
@@ -434,8 +423,6 @@ export const InventoryPage = () => {
               </div>
             )}
           </div>
-        </div>
-      </div>
     </div>
   )
 }

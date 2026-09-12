@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import api from '../api/client'
 import { useAuth } from '../context/AuthContext'
@@ -23,6 +23,14 @@ export const BossArenaPage = () => {
 
   const maxPlayerHp = character?.effective_vigor || character?.base_vigor || 100
   const maxBossHp = boss?.hp || 100
+
+  const battleIntervalRef = useRef(null)
+
+  useEffect(() => {
+    return () => {
+      if (battleIntervalRef.current) clearInterval(battleIntervalRef.current)
+    }
+  }, [])
 
   const initArena = async () => {
     setIsLoading(true)
@@ -54,13 +62,13 @@ export const BossArenaPage = () => {
     playSound('hit', soundMuted)
 
     try {
-      const { data } = await api.post(`/bosses/${bossId}/fight`)
-      setFightResult(data)
+      // 1. Simulate without committing to DB
+      const { data } = await api.post(`/bosses/${bossId}/fight?simulate_only=true`)
       setBattleLog(data.battle_log || [])
       setCurrentTurnIdx(0)
 
       // Start animated turn playback
-      playBattleSequence(data.battle_log || [], data)
+      playBattleSequence(data.battle_log || [])
     } catch (err) {
       console.error(err)
       addToast({
@@ -72,12 +80,13 @@ export const BossArenaPage = () => {
     }
   }
 
-  const playBattleSequence = (turns, finalData) => {
+  const playBattleSequence = (turns) => {
     let step = 0
-    const interval = setInterval(() => {
+    battleIntervalRef.current = setInterval(() => {
       if (step >= turns.length) {
-        clearInterval(interval)
-        finishBattle(finalData)
+        clearInterval(battleIntervalRef.current)
+        battleIntervalRef.current = null
+        finishBattle()
         return
       }
 
@@ -101,11 +110,15 @@ export const BossArenaPage = () => {
     }, 650)
   }
 
-  const finishBattle = async (data) => {
-    await fetchCharacter()
+  const finishBattle = async () => {
+    try {
+      // 2. Commit the fight to DB now that animation finished
+      const { data } = await api.post(`/bosses/${bossId}/fight?simulate_only=false`)
+      setFightResult(data)
+      await fetchCharacter()
 
-    if (data.shield_consumed) {
-      addToast({
+      if (data.shield_consumed) {
+        addToast({
         title: 'Gear Consumed in Battle',
         message: `Your equipped ${data.consumed_shield_name || 'gear'} was consumed defending in combat.`,
         type: 'info',
@@ -139,9 +152,13 @@ export const BossArenaPage = () => {
           })
         })
       }
-    } else {
-      setBattleState('defeat')
-      playSound('defeat', soundMuted)
+      } else {
+        setBattleState('defeat')
+        playSound('defeat', soundMuted)
+      }
+    } catch (err) {
+      console.error(err)
+      setBattleState('ready')
     }
   }
 
@@ -176,7 +193,7 @@ export const BossArenaPage = () => {
           textTransform: 'uppercase',
           marginBottom: '0.35rem',
         }}>
-          ⚔️ TRIAL OF THE DEMIGOD
+          TRIAL OF THE DEMIGOD
         </div>
         <h1 style={{
           fontFamily: 'var(--font-title)',
@@ -251,7 +268,7 @@ export const BossArenaPage = () => {
               color: 'var(--color-gold-bright)',
               marginTop: '0.5rem',
             }}>
-              ATK: {character?.effective_strength || 10} | DEF: {character?.effective_poise || 0}
+              AP: {character?.effective_strength || 10} | DEF: {character?.effective_poise || 0}
             </div>
 
             {activeDamageEffect?.target === 'player' && (
@@ -301,7 +318,7 @@ export const BossArenaPage = () => {
               color: 'var(--color-arcane-bright)',
               marginTop: '0.5rem',
             }}>
-              ATK: {boss.ap} | DEF: {boss.defense}
+              AP: {boss.ap} | DEF: {boss.defense}
             </div>
 
             {activeDamageEffect?.target === 'boss' && (
@@ -328,9 +345,9 @@ export const BossArenaPage = () => {
             <button
               onClick={startFight}
               className="pixel-btn pixel-btn-crimson"
-              style={{ padding: '0.9rem 2.5rem', fontSize: '0.9rem' }}
+              style={{ padding: '1rem 2rem', fontSize: '1rem', width: '100%', maxWidth: '350px', whiteSpace: 'nowrap' }}
             >
-              ⚔️ COMMENCE BATTLE (FULL HP)
+              COMMENCE BATTLE
             </button>
           )}
 
@@ -349,7 +366,7 @@ export const BossArenaPage = () => {
                 marginBottom: '0.4rem',
                 textShadow: '0 0 15px var(--color-gold-glow)',
               }}>
-                👑 {fightResult?.first_time_victory ? 'DEMIGOD FELLED' : 'DEMIGOD REMATCH WON'}
+                {fightResult?.first_time_victory ? 'DEMIGOD FELLED' : 'DEMIGOD REMATCH WON'}
               </div>
               <p style={{ color: 'var(--color-text-dim)', fontSize: '0.8rem', marginBottom: '1rem' }}>
                 {fightResult?.first_time_victory
@@ -359,13 +376,13 @@ export const BossArenaPage = () => {
               <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
                 <button
                   onClick={resetBattle}
-                  className="pixel-btn pixel-btn-gold"
-                  style={{ fontSize: '0.75rem' }}
+                  className="pixel-btn"
+                  style={{ padding: '0.75rem 1.5rem', background: '#34495e', color: '#fff', border: '2px solid #2c3e50' }}
                 >
-                  ⚔️ Replay Trial
+                  Replay Trial
                 </button>
                 <Link to="/map" className="pixel-btn" style={{ fontSize: '0.75rem' }}>
-                  🗺️ Return to World Map
+                  Return to World Map
                 </Link>
               </div>
             </div>
@@ -380,21 +397,18 @@ export const BossArenaPage = () => {
                 marginBottom: '1rem',
                 textShadow: '0 0 15px var(--color-crimson-glow)',
               }}>
-                💀 YOU DIED
+                YOU DIED
               </div>
-              <p style={{ color: 'var(--color-text-dim)', fontSize: '0.85rem', marginBottom: '1rem' }}>
-                Your strength was insufficient. Your HP has been fully restored to {maxPlayerHp}. Inscribe quests to gain Runes and equip relics!
-              </p>
               <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
                 <button
                   onClick={startFight}
                   className="pixel-btn pixel-btn-crimson"
-                  style={{ fontSize: '0.75rem' }}
+                  style={{ padding: '0.75rem 1.5rem' }}
                 >
-                  ⚔️ Challenge Again (Full HP)
+                  Challenge Again
                 </button>
                 <Link to="/inventory" className="pixel-btn" style={{ fontSize: '0.75rem' }}>
-                  🎒 Optimize Loadout
+                  Optimize Loadout
                 </Link>
               </div>
             </div>

@@ -110,7 +110,7 @@ export const MapPage = () => {
               {activeBoss.is_defeated
                 ? '💀 DEMIGOD VANQUISHED'
                 : activeBoss.is_unlocked
-                ? '⚔️ TRIAL AWAITS'
+                ? 'TRIAL AWAITS'
                 : '🔒 SEALED'}
             </div>
 
@@ -160,7 +160,7 @@ export const MapPage = () => {
                 className="pixel-btn pixel-btn-crimson map-modal__cta"
                 onClick={() => enterArena(activeBoss)}
               >
-                ⚔️ ENTER THE ARENA
+                ENTER THE ARENA
               </button>
             ) : (
               <div className="map-modal__locked">

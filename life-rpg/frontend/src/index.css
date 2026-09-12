@@ -1,0 +1,752 @@
+:root {
+  /* Color Palette - Dark Fantasy RPG */
+  --color-bg: #0b0c10;
+  --color-bg-alt: #101118;
+  --color-surface: #171824;
+  --color-surface-2: #202232;
+  --color-surface-hover: #292a3e;
+  --color-surface-glass: rgba(23, 24, 36, 0.88);
+  
+  /* Accents */
+  --color-gold: #c9a84c;
+  --color-gold-bright: #f1c40f;
+  --color-gold-dim: #7a6530;
+  --color-gold-glow: rgba(201, 168, 76, 0.4);
+  
+  --color-crimson: #8b1a1a;
+  --color-crimson-bright: #e74c3c;
+  --color-crimson-glow: rgba(231, 76, 60, 0.4);
+  
+  --color-echo: #1f77b4;
+  --color-echo-bright: #3498db;
+  --color-echo-glow: rgba(52, 152, 219, 0.4);
+  
+  --color-arcane: #5b2d8e;
+  --color-arcane-bright: #9b59b6;
+  --color-arcane-glow: rgba(155, 89, 182, 0.4);
+  
+  --color-rune: #f39c12;
+  --color-rune-glow: rgba(243, 156, 18, 0.45);
+  
+  --color-success: #27ae60;
+  --color-success-bright: #2ecc71;
+  --color-success-glow: rgba(46, 204, 113, 0.35);
+
+  --color-text: #e8e0d0;
+  --color-text-dim: #a09eb0;
+  --color-text-muted: #666477;
+  
+  --color-border: #2c2d3f;
+  --color-border-gold: #735d28;
+  --color-border-bright: #444660;
+
+  /* Typography */
+  --font-pixel: 'Press Start 2P', monospace;
+  --font-stat: 'VT323', monospace;
+  --font-title: 'Cinzel', Georgia, serif;
+  --font-body: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Spacing & Radii */
+  --radius-pixel: 0px;
+  --radius-subtle: 4px;
+  --radius-card: 6px;
+  
+  /* Shadows */
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.6);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.75);
+  --shadow-gold: 0 0 15px rgba(201, 168, 76, 0.35);
+  --shadow-crimson: 0 0 15px rgba(231, 76, 60, 0.35);
+}
+
+/* Reset & Base Styles */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  color-scheme: dark;
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  min-height: 100vh;
+  background-color: var(--color-bg);
+  background-image: 
+    radial-gradient(circle at 50% 0%, rgba(32, 34, 50, 0.5) 0%, transparent 75%),
+    linear-gradient(to bottom, #0b0c10 0%, #08090c 100%);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 2px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dim);
+}
+
+/* Selection */
+::selection {
+  background: var(--color-gold);
+  color: var(--color-bg);
+}
+
+/* Typography Helpers */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-title);
+  letter-spacing: 0.05em;
+  color: #fff;
+  line-height: 1.25;
+}
+
+.font-pixel {
+  font-family: var(--font-pixel);
+  letter-spacing: 0.02em;
+}
+
+.font-stat {
+  font-family: var(--font-stat);
+  letter-spacing: 0.06em;
+}
+
+.font-title {
+  font-family: var(--font-title);
+}
+
+/* Pixel Card / Panel Styles */
+.pixel-panel {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border);
+  box-shadow: 
+    0 0 0 1px rgba(0,0,0,0.8),
+    inset 0 1px 0 rgba(255,255,255,0.06),
+    var(--shadow-md);
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.pixel-panel-gold {
+  background: var(--color-surface);
+  border: 2px solid var(--color-border-gold);
+  box-shadow: 
+    0 0 0 1px rgba(0,0,0,0.8),
+    0 0 12px var(--color-gold-glow),
+    inset 0 1px 0 rgba(201, 168, 76, 0.2);
+}
+
+.pixel-panel-crimson {
+  background: var(--color-surface);
+  border: 2px solid #5a1414;
+  box-shadow: 
+    0 0 0 1px rgba(0,0,0,0.8),
+    0 0 12px var(--color-crimson-glow);
+}
+
+/* Pixel Buttons */
+.pixel-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.6rem 1.2rem;
+  font-family: var(--font-pixel);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: var(--color-text);
+  background: var(--color-surface-2);
+  border: 2px solid var(--color-border-bright);
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease, background 0.15s ease;
+  user-select: none;
+  text-decoration: none;
+}
+
+.pixel-btn:hover {
+  filter: brightness(1.15);
+  border-color: var(--color-gold);
+}
+
+.pixel-btn:active {
+  transform: translateY(3px);
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+}
+
+.pixel-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  filter: grayscale(0.8);
+}
+
+.pixel-btn-gold {
+  background: linear-gradient(180deg, #8a7333 0%, #544318 100%);
+  color: #fff9e6;
+  border-color: var(--color-gold-bright);
+  text-shadow: 1px 1px 2px #000;
+}
+.pixel-btn-gold:hover {
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 15px var(--color-gold-glow);
+}
+
+.pixel-btn-crimson {
+  background: linear-gradient(180deg, #9e2323 0%, #5a1212 100%);
+  color: #ffe6e6;
+  border-color: var(--color-crimson-bright);
+  text-shadow: 1px 1px 2px #000;
+}
+.pixel-btn-crimson:hover {
+  box-shadow: 0 4px 0 rgba(0, 0, 0, 0.6), 0 0 15px var(--color-crimson-glow);
+}
+
+.pixel-btn-arcane {
+  background: linear-gradient(180deg, #7434b0 0%, #3e1666 100%);
+  color: #f7e8ff;
+  border-color: var(--color-arcane-bright);
+  text-shadow: 1px 1px 2px #000;
+}
+
+.pixel-btn-echo {
+  background: linear-gradient(180deg, #2475ab 0%, #134466 100%);
+  color: #e6f6ff;
+  border-color: var(--color-echo-bright);
+  text-shadow: 1px 1px 2px #000;
+}
+
+/* Stat & Progress Bars */
+.stat-bar-container {
+  width: 100%;
+  height: 14px;
+  background: #0d0e14;
+  border: 1px solid var(--color-border);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.8);
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-bar-fill {
+  height: 100%;
+  transition: width 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+  position: relative;
+}
+
+.stat-bar-fill-hp {
+  background: linear-gradient(90deg, #8b1a1a 0%, #c0392b 70%, #e74c3c 100%);
+  box-shadow: 0 0 8px rgba(231, 76, 60, 0.5);
+}
+
+.stat-bar-fill-xp {
+  background: linear-gradient(90deg, #b8860b 0%, #f39c12 70%, #ffd700 100%);
+  box-shadow: 0 0 8px rgba(243, 156, 18, 0.5);
+}
+
+.stat-bar-fill-boss {
+  background: linear-gradient(90deg, #5b2d8e 0%, #8e44ad 70%, #9b59b6 100%);
+  box-shadow: 0 0 8px rgba(155, 89, 182, 0.5);
+}
+
+/* Animations */
+@keyframes flameFlicker {
+  0%, 100% { filter: drop-shadow(0 0 4px #e67e22) brightness(1); }
+  50% { filter: drop-shadow(0 0 10px #f39c12) brightness(1.2); }
+}
+
+.flame-flicker {
+  animation: flameFlicker 1.8s infinite ease-in-out;
+}
+
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 8px var(--color-gold-glow); }
+  50% { box-shadow: 0 0 20px var(--color-gold-glow), 0 0 4px var(--color-gold-bright); }
+}
+
+.gold-pulse {
+  animation: goldPulse 2.5s infinite ease-in-out;
+}
+
+/* Layout Utilities */
+.app-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem;
+}
+
+.grid-cols-1-2 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+
+@media (min-width: 992px) {
+  .grid-cols-1-2 {
+    grid-template-columns: 320px 1fr;
+  }
+}
+
+.grid-cols-3 {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+/* Badges & Tags */
+.difficulty-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  font-family: var(--font-pixel);
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  border-radius: 2px;
+}
+
+.difficulty-trivial {
+  background: rgba(127, 140, 141, 0.25);
+  color: #bdc3c7;
+  border: 1px solid #7f8c8d;
+}
+
+.difficulty-common {
+  background: rgba(39, 174, 96, 0.25);
+  color: #2ecc71;
+  border: 1px solid #27ae60;
+}
+
+.difficulty-challenging {
+  background: rgba(41, 128, 185, 0.25);
+  color: #3498db;
+  border: 1px solid #2980b9;
+}
+
+.difficulty-legendary {
+  background: rgba(243, 156, 18, 0.25);
+  color: #f1c40f;
+  border: 1px solid #f39c12;
+  box-shadow: 0 0 6px rgba(243, 156, 18, 0.4);
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAP PAGE — Dark Fantasy World Map
+   ══════════════════════════════════════════════════════════ */
+
+.map-page {
+  position: relative;
+  width: 100%;
+  height: calc(100vh - 65px);
+  overflow: hidden;
+  background: #0a0806;
+  user-select: none;
+}
+
+.map-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: fill;
+  pointer-events: none;
+}
+
+/* ── Boss Pin Buttons ── */
+
+.map-pin {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+  outline: none;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275),
+              filter 0.25s ease;
+}
+
+.map-pin:hover,
+.map-pin:focus-visible {
+  transform: translate(-50%, -60%) scale(1.12);
+}
+
+.map-pin:active {
+  transform: translate(-50%, -52%) scale(1.04);
+}
+
+.map-pin__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 52px;
+  height: 52px;
+  border-radius: 4px;
+  font-size: 1.65rem;
+  position: relative;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.9);
+  transition: box-shadow 0.25s ease;
+}
+
+.map-pin:hover .map-pin__icon {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.95);
+}
+
+/* State-specific pin styles */
+.map-pin.locked .map-pin__icon {
+  background: rgba(20, 16, 10, 0.92);
+  border: 2px solid #3a3020;
+  filter: grayscale(0.5) brightness(0.7);
+}
+.map-pin.unlocked .map-pin__icon {
+  background: rgba(50, 16, 14, 0.94);
+  border: 2px solid #8b1a1a;
+}
+.map-pin.defeated .map-pin__icon {
+  background: rgba(36, 28, 10, 0.94);
+  border: 2px solid #9a8030;
+}
+
+/* Status badge */
+.map-pin__badge {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.6rem;
+  font-weight: bold;
+  border: 2px solid #0a0806;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.8);
+}
+
+.map-pin.locked .map-pin__badge {
+  background: #2a2218;
+  color: #6a5838;
+  font-size: 0.55rem;
+}
+.map-pin.unlocked .map-pin__badge {
+  background: #a03020;
+  color: #fff;
+}
+.map-pin.defeated .map-pin__badge {
+  background: #b89030;
+  color: #1a1208;
+}
+
+/* Boss name label below pin */
+.map-pin__name {
+  background: rgba(8, 6, 4, 0.92);
+  border: 1px solid #3a3020;
+  padding: 3px 10px;
+  font-family: var(--font-title);
+  font-weight: bold;
+  font-size: 0.68rem;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.9);
+}
+
+.map-pin.locked .map-pin__name {
+  color: #5a4e38;
+  border-color: #2a2418;
+}
+.map-pin.unlocked .map-pin__name {
+  color: #d0a888;
+  border-color: #6a3020;
+}
+.map-pin.defeated .map-pin__name {
+  color: #c8a040;
+  border-color: #6a5020;
+}
+
+/* ── Modal ── */
+
+.map-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 100;
+  background: rgba(4, 3, 2, 0.88);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  animation: mapFadeIn 0.2s ease;
+}
+
+@keyframes mapFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.map-modal {
+  max-width: 520px;
+  width: 100%;
+  background: #151008;
+  border: 1.5px solid #302818;
+  padding: 1.75rem;
+  position: relative;
+  box-shadow: 0 16px 50px rgba(0,0,0,0.97);
+}
+
+.map-modal__close {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  background: transparent;
+  border: none;
+  color: #504030;
+  font-size: 1.3rem;
+  cursor: pointer;
+  transition: color 0.15s;
+  line-height: 1;
+}
+.map-modal__close:hover {
+  color: #907060;
+}
+
+.map-modal__status {
+  font-family: var(--font-pixel);
+  font-size: 0.55rem;
+  letter-spacing: 1.5px;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+.status--defeated { color: #908030; }
+.status--unlocked { color: #a04030; }
+.status--locked   { color: #403828; }
+
+.map-modal__name {
+  font-family: var(--font-title);
+  font-size: 1.5rem;
+  color: #c0a050;
+  margin-bottom: 0.75rem;
+  letter-spacing: 1px;
+}
+
+.map-modal__lore {
+  border-left: 2px solid #302818;
+  padding: 0.6rem 0.85rem;
+  margin: 0 0 1.1rem 0;
+  background: rgba(0,0,0,0.3);
+  font-size: 0.82rem;
+  color: #9a8868;
+  line-height: 1.55;
+  font-style: italic;
+}
+
+/* Stats grid */
+.map-modal__stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.55rem;
+  margin-bottom: 1.1rem;
+  text-align: center;
+}
+
+.stat {
+  padding: 0.55rem 0.3rem;
+}
+.stat__label {
+  font-size: 0.5rem;
+  font-family: var(--font-pixel);
+  margin-bottom: 0.2rem;
+}
+.stat__value {
+  font-family: var(--font-stat);
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.stat--hp  { background: #180e0a; border: 1px solid #381410; }
+.stat--hp .stat__label,
+.stat--hp .stat__value { color: #b04838; }
+
+.stat--ap  { background: #181408; border: 1px solid #38280e; }
+.stat--ap .stat__label,
+.stat--ap .stat__value { color: #b08828; }
+
+.stat--def { background: #101418; border: 1px solid #1c2430; }
+.stat--def .stat__label,
+.stat--def .stat__value { color: #708090; }
+
+/* Rewards */
+.map-modal__rewards {
+  background: #100e08;
+  border: 1px solid #252010;
+  padding: 0.7rem;
+  margin-bottom: 1.2rem;
+}
+
+.rewards__title {
+  font-size: 0.52rem;
+  font-family: var(--font-pixel);
+  color: #806820;
+  margin-bottom: 0.4rem;
+}
+.rewards__claimed { color: #3a3218; }
+
+.rewards__values {
+  display: flex;
+  gap: 1.2rem;
+  font-family: var(--font-stat);
+  font-size: 1.1rem;
+}
+.reward--runes  { color: #a88828; }
+.reward--echoes { color: #386888; }
+
+.rewards__drops {
+  font-size: 0.7rem;
+  color: #5a4830;
+  margin-top: 0.35rem;
+  text-transform: capitalize;
+}
+
+/* CTA */
+.map-modal__cta {
+  width: 100%;
+  padding: 0.85rem;
+  font-size: 0.8rem;
+}
+
+.map-modal__locked {
+  text-align: center;
+  padding: 0.8rem;
+  background: #110a08;
+  border: 1px solid #381410;
+  color: #804030;
+  font-size: 0.77rem;
+}
+
+/* ══════════════════════════════════════════════════════════
+   MAP PAGE — Responsive Breakpoints
+   ══════════════════════════════════════════════════════════ */
+
+/* Tablets (landscape and portrait) */
+@media (max-width: 1024px) {
+  .map-pin__icon {
+    width: 44px;
+    height: 44px;
+    font-size: 1.35rem;
+  }
+  .map-pin__badge {
+    width: 18px;
+    height: 18px;
+    font-size: 0.5rem;
+    top: -6px;
+    right: -6px;
+  }
+  .map-pin__name {
+    font-size: 0.6rem;
+    padding: 2px 7px;
+  }
+  .map-modal {
+    max-width: 440px;
+    padding: 1.35rem;
+  }
+  .map-modal__name {
+    font-size: 1.3rem;
+  }
+}
+
+/* Phones */
+@media (max-width: 640px) {
+  .map-page {
+    height: calc(100vh - 56px);
+  }
+  .map-bg {
+    object-position: 30% center;
+  }
+  .map-pin__icon {
+    width: 36px;
+    height: 36px;
+    font-size: 1.1rem;
+  }
+  .map-pin__badge {
+    width: 16px;
+    height: 16px;
+    font-size: 0.45rem;
+    top: -5px;
+    right: -5px;
+    border-width: 1.5px;
+  }
+  .map-pin__name {
+    font-size: 0.5rem;
+    padding: 2px 5px;
+    max-width: 90px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .map-modal-backdrop {
+    padding: 0.5rem;
+    align-items: flex-end;
+  }
+  .map-modal {
+    max-width: 100%;
+    padding: 1.15rem;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+  }
+  .map-modal__name {
+    font-size: 1.15rem;
+    margin-bottom: 0.5rem;
+  }
+  .map-modal__lore {
+    font-size: 0.75rem;
+    margin-bottom: 0.8rem;
+  }
+  .map-modal__stats {
+    gap: 0.4rem;
+    margin-bottom: 0.8rem;
+  }
+  .stat {
+    padding: 0.4rem 0.2rem;
+  }
+  .stat__value {
+    font-size: 1.25rem;
+  }
+  .rewards__values {
+    font-size: 0.95rem;
+    gap: 0.8rem;
+  }
+}
+
+/* Very small phones */
+@media (max-width: 380px) {
+  .map-pin__icon {
+    width: 30px;
+    height: 30px;
+    font-size: 0.9rem;
+  }
+  .map-pin__name {
+    display: none;
+  }
+  .map-pin__badge {
+    width: 14px;
+    height: 14px;
+    font-size: 0.4rem;
+  }
+}

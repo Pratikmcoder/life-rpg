@@ -25,11 +25,11 @@ const BOSS_POSITIONS = {
 
 /* Horror-themed icons per boss — dark skull/symbol style */
 const BOSS_ICONS = {
-  gravekeeper:       '💀',
-  shadow_warden:     '🗡️',
-  queen_of_ash:      '🔥',
-  void_sovereign:    '🐉',
-  eternal_sovereign: '👑',
+  gravekeeper:       '/gravekeeper.png',
+  shadow_warden:     '/shadow_warden.png',
+  queen_of_ash:      '/queen_of_ash.png',
+  void_sovereign:    '/void_sovereign.png',
+  eternal_sovereign: '/eternal_sovereign.png',
 }
 
 export const MapPage = () => {
@@ -87,7 +87,13 @@ export const MapPage = () => {
             onClick={() => openModal(boss)}
             aria-label={`${boss.name} — ${defeated ? 'Defeated' : unlocked ? 'Available' : 'Locked'}`}
           >
-            <span className="map-pin__icon">{icon}</span>
+            <span className="map-pin__icon">
+              {icon.endsWith('.png') ? (
+                <img src={icon} alt={boss.name} style={{ width: '64px', height: '64px', objectFit: 'contain', filter: 'drop-shadow(0 0 8px rgba(0,0,0,0.8))' }} />
+              ) : (
+                icon
+              )}
+            </span>
             <span className="map-pin__badge">
               {defeated ? '✓' : unlocked ? '!' : '🔒'}
             </span>

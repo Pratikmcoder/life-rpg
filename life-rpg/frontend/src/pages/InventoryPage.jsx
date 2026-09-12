@@ -13,20 +13,20 @@ const RARITY_COLORS = {
 }
 
 const ITEM_ICONS = {
-  worn_shield: '🛡️',
-  iron_sword: '🗡️',
-  knights_helm: '🪖',
-  chain_mail: '🥋',
-  soldiers_ring: '💍',
-  blessed_seal: '🧿',
-  rune_talisman: '📿',
-  berserker_blade: '⚔️',
-  plate_armor: '🛡️',
-  dragon_helm: '🐉',
-  dragonseal_armor: '🥋',
-  godslayer_sword: '⚡',
-  ancient_bulwark: '🏛️',
-  elden_medallion: '👑',
+  worn_shield: '/worn_shield.jpg',
+  iron_sword: '/iron_sword.png',
+  knights_helm: '/knights_helm.png',
+  chain_mail: '/chain_mail.png',
+  soldiers_ring: '/soldiers_ring.png',
+  blessed_seal: '/blessed_seal.png',
+  rune_talisman: '/rune_talisman.png',
+  berserker_blade: '/berserker_blade.png',
+  plate_armor: '/plate_armor.jpg',
+  dragon_helm: '/dragon_helm.png',
+  dragonseal_armor: '/dragonseal_armor.jpg',
+  godslayer_sword: '/godslayer_sword.png',
+  ancient_bulwark: '/ancient_bulwark.png',
+  elden_medallion: '/elden_medallion.jpg',
 }
 
 const SLOT_ICONS = {
@@ -206,7 +206,11 @@ export const InventoryPage = () => {
                           alignItems: 'center',
                           justifyContent: 'center',
                         }}>
-                          {icon}
+                          {typeof icon === 'string' && icon.startsWith('/') ? (
+                            <img src={icon} alt="" style={{ width: '85%', height: '85%', objectFit: 'contain', filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.8))' }} />
+                          ) : (
+                            icon
+                          )}
                         </div>
                         <div>
                           <div style={{
@@ -359,7 +363,11 @@ export const InventoryPage = () => {
                             alignItems: 'center',
                             justifyContent: 'center',
                           }}>
-                            {icon}
+                            {typeof icon === 'string' && icon.startsWith('/') ? (
+                              <img src={icon} alt="" style={{ width: '85%', height: '85%', objectFit: 'contain', filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.8))' }} />
+                            ) : (
+                              icon
+                            )}
                           </div>
                           <div>
                             <div style={{

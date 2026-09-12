@@ -2,9 +2,9 @@
   /* Color Palette - Dark Fantasy RPG */
   --color-bg: #0b0c10;
   --color-bg-alt: #101118;
-  --color-surface: #171824;
-  --color-surface-2: #202232;
-  --color-surface-hover: #292a3e;
+  --color-surface: rgba(23, 24, 36, 0.7);
+  --color-surface-2: rgba(32, 34, 50, 0.75);
+  --color-surface-hover: rgba(41, 42, 62, 0.8);
   --color-surface-glass: rgba(23, 24, 36, 0.88);
 
   /* Accents */

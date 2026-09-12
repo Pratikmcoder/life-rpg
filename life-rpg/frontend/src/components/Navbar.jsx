@@ -28,7 +28,7 @@ export const Navbar = () => {
 
   return (
     <header style={{
-      background: 'rgba(14, 15, 23, 0.95)',
+      background: 'rgba(14, 15, 23, 0.7)',
       borderBottom: '2px solid var(--color-border)',
       position: 'sticky',
       top: 0,

@@ -135,12 +135,6 @@ export const BossArenaPage = () => {
           message: `First Victory: +${data.runes_earned} Runes, +${data.echoes_earned} Echoes!`,
           type: 'runes',
         })
-      } else {
-        addToast({
-          title: 'DEMIGOD REMATCH WON!',
-          message: 'Boss was previously defeated. No additional Runes or Echoes awarded.',
-          type: 'info',
-        })
       }
 
       if (data.newly_awarded_badges?.length > 0) {
@@ -368,11 +362,11 @@ export const BossArenaPage = () => {
               }}>
                 {fightResult?.first_time_victory ? 'DEMIGOD FELLED' : 'DEMIGOD REMATCH WON'}
               </div>
-              <p style={{ color: 'var(--color-text-dim)', fontSize: '0.8rem', marginBottom: '1rem' }}>
-                {fightResult?.first_time_victory
-                  ? `Spoils Claimed: +${fightResult?.runes_earned || 0} Runes, +${fightResult?.echoes_earned || 0} Echoes!`
-                  : 'Boss was previously conquered. No additional Runes or Echoes granted for rematches.'}
-              </p>
+              {fightResult?.first_time_victory && (
+                <p style={{ color: 'var(--color-text-dim)', fontSize: '0.8rem', marginBottom: '1rem' }}>
+                  Spoils Claimed: +{fightResult?.runes_earned || 0} Runes, +{fightResult?.echoes_earned || 0} Echoes!
+                </p>
+              )}
               <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem' }}>
                 <button
                   onClick={resetBattle}

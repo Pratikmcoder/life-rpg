@@ -1,126 +1,207 @@
-# 👑 Life RPG — Dark Fantasy Gamified Productivity
+# Life RPG - Gamified Productivity Platform
 
-> Transform your daily routines into an Elden Ring–inspired dark fantasy RPG progression. Inscribe real quests, gather Runes (XP) and Echoes (Currency), maintain your Flame of Grace streak, forge legendary armor, and vanquish the Demigods in turn-based combat.
+Transform everyday productivity into a dark-fantasy RPG experience inspired by classic action RPG progression systems.
 
----
-
-## 🌟 Key Features
-
-- **📜 Server-Authoritative Quest Engine**: Inscribe tasks across 4 difficulty tiers (*Trivial*, *Common*, *Challenging*, *Legendary*). XP and currency calculations are securely verified server-side.
-- **🔥 Flame of Grace (Streak Tracking)**: Maintain your daily streak by meeting the 100-Rune daily fuel threshold.
-- **👑 Grace Ascension (Leveling System)**: 20 levels of progression scaling your character's Vigor (HP), Strength (Attack Power), and Poise (Defense).
-- **🏛️ Merchant's Vault (RPG Shop)**: Acquire weapons, armor, accessories, and restorative potions that dynamically enhance your combat attributes.
-- **🎒 Pouch & Loadout Manager**: Equip weapon, helmet, armor, and accessory slots, and consume restorative elixirs in real-time.
-- **🗺️ The Lands Between (Interactive World Map)**: SVG-powered map pinning 5 original Demigod boss encounters with prerequisites and item drops.
-- **⚔️ Turn-Based Boss Combat Arena**: Deterministic server-simulated combat with animated turn playback, floating damage numbers, and authentic 8-bit sound effects.
-- **🏅 Hall of Medallions (Badges)**: 10 unlockable achievements recognizing quest volume, streaks, levels, and boss triumphs.
-- **🔊 Web Audio 8-Bit Synthesizer**: Built-in retro SFX for button clicks, level-ups, combat hits, purchases, and victories.
+**Life RPG** converts real-world tasks into quests, rewarding users with **Runes (XP)** and **Echoes (Currency)**. Users can maintain productivity streaks, level up their character, acquire equipment, and challenge powerful Demigod bosses in turn-based combat.
 
 ---
 
-## 🛠️ Technology Stack
+## Key Features
+
+### Quest & Progression System
+- **Server-authoritative quest engine** with four difficulty tiers: **Trivial, Common, Challenging, and Legendary**.
+- Server-side validation of **XP and currency calculations** to ensure consistent and tamper-resistant progression.
+- **20-level progression system** that increases core character attributes including **Vigor (HP), Strength (Attack), and Poise (Defense)**.
+- **Flame of Grace streak system** requiring users to earn at least **100 Runes per day** to maintain their streak.
+
+### Inventory & Character Customization
+- **Merchant's Vault** featuring weapons, armor, accessories, and restorative potions.
+- **Pouch & Loadout Manager** supporting equipment slots for weapons, helmets, armor, and accessories.
+- Dynamic character-stat recalculation based on equipped items.
+- Consumable restorative elixirs that can be used during gameplay.
+
+### World & Combat
+- **Interactive SVG-based world map** featuring five original Demigod encounters.
+- Boss encounters include unlock prerequisites and unique item rewards.
+- **Deterministic turn-based combat engine** with server-side combat simulation.
+- Animated combat playback, floating damage indicators, and retro **8-bit sound effects**.
+
+### Achievements & Audio
+- **Hall of Medallions** with 10 unlockable achievements based on quests completed, streak milestones, character progression, and boss victories.
+- Integrated **Web Audio API synthesizer** providing retro sound effects for interactions, purchases, level-ups, attacks, and victories.
+
+---
+
+## Technology Stack
 
 | Layer | Technology |
 |---|---|
 | **Frontend** | React 18, Vite, React Router v6, Axios, Web Audio API |
-| **Styling** | Vanilla CSS + Dark Fantasy RPG Design System (Press Start 2P, VT323, Cinzel) |
+| **Styling** | Vanilla CSS, custom Dark Fantasy RPG design system |
+| **Typography** | Press Start 2P, VT323, Cinzel |
 | **Backend** | Python 3.12, FastAPI, Uvicorn (ASGI), Pydantic v2 |
-| **Database** | MongoDB (via Motor async driver) with append-only ledger & transaction support |
-| **Security** | JWT (access tokens in-memory + HttpOnly refresh cookies), bcrypt hashing |
+| **Database** | MongoDB with Motor async driver, append-only ledger, and transaction support |
+| **Authentication & Security** | JWT access tokens, HttpOnly refresh cookies, bcrypt password hashing |
 | **Testing** | Pytest, pytest-asyncio |
 
 ---
 
-## 🚀 Getting Started Locally
+## Getting Started
 
-### 1. Prerequisites
-- Python 3.11+
-- Node.js 18+ and npm
-- MongoDB running locally on `localhost:27017` (or MongoDB Atlas connection string)
+### Prerequisites
+
+Ensure the following are installed before running the project:
+
+- **Python 3.11+**
+- **Node.js 18+**
+- **npm**
+- **MongoDB** running locally on `localhost:27017`, or a MongoDB Atlas connection string
 
 ---
 
-### 2. Backend Setup
+## Backend Setup
+
+Navigate to the backend directory:
 
 ```bash
 cd life-rpg/backend
+```
 
-# Create virtual environment (if not already created)
+Create and activate a Python virtual environment:
+
+```bash
 python -m venv venv
+```
 
-# Activate virtual environment
-# On Windows PowerShell:
+**Windows PowerShell:**
+
+```powershell
 .\venv\Scripts\Activate.ps1
-# On macOS/Linux:
-# source venv/bin/activate
+```
 
-# Install Python dependencies
+**macOS/Linux:**
+
+```bash
+source venv/bin/activate
+```
+
+Install the backend dependencies:
+
+```bash
 pip install -r requirements.txt
+```
 
-# Run backend unit tests
+Run the backend test suite:
+
+```bash
 pytest
+```
 
-# Start the FastAPI development server
+Start the FastAPI development server:
+
+```bash
 uvicorn app.main:app --reload --port 8000
 ```
 
-The backend will start at: `http://localhost:8000`  
-Interactive API Docs (Swagger): `http://localhost:8000/docs`
+The backend will be available at:
+
+**API:** `http://localhost:8000`  
+**Swagger / OpenAPI Documentation:** `http://localhost:8000/docs`
 
 ---
 
-### 3. Frontend Setup
+## Frontend Setup
+
+Navigate to the frontend directory:
 
 ```bash
 cd life-rpg/frontend
+```
 
-# Install npm packages
+Install the required npm packages:
+
+```bash
 npm install
+```
 
-# Start Vite development server (proxies /api to localhost:8000)
+Start the Vite development server:
+
+```bash
 npm run dev
 ```
 
-The frontend application will be live at: `http://localhost:5173`
+The frontend application will be available at:
+
+**`http://localhost:5173`**
+
+The Vite development server proxies `/api` requests to the backend running on port `8000`.
 
 ---
 
-## 🧪 Testing
+## Testing
 
-Run backend test suite with Pytest:
+Run the complete backend test suite with:
 
 ```bash
 cd life-rpg/backend
 .\venv\Scripts\pytest -v
 ```
 
-Tests cover:
-- RPG engine level formulas and stat computations across all 20 levels
-- Deterministic boss combat simulation and damage resolution
-- Password hashing, verification, and JWT access/refresh token encoding/decoding
+The test suite covers:
+
+- RPG progression formulas and character-stat calculations across all 20 levels.
+- Deterministic Demigod combat simulation and damage resolution.
+- Password hashing and verification.
+- JWT access and refresh token encoding and decoding.
 
 ---
 
-## 📜 API Reference Summary
+## API Reference
 
-- `POST /api/auth/register` — Create account, initialize character & starter gear
-- `POST /api/auth/login` — Authenticate and receive JWT access token + refresh cookie
-- `POST /api/auth/refresh` — Rotate and refresh expired access tokens
-- `GET /api/character` — Retrieve character stats, level progress, and effective attributes
-- `GET /api/quests` — List active, completed, or all quests
-- `POST /api/quests` — Inscribe a new quest
-- `POST /api/quests/{id}/complete` — Complete quest and claim Runes & Echoes
-- `GET /api/shop` — Browse available and locked items in Merchant's Vault
-- `POST /api/shop/purchase` — Purchase items with Echoes
-- `GET /api/inventory` — View pouch items and active equipment loadout
-- `POST /api/inventory/equip` — Equip weapon/armor/accessory and recompute stats
-- `POST /api/inventory/consume` — Quaff potion and restore HP
-- `GET /api/map` — Retrieve all bosses and unlock states on the World Map
-- `POST /api/bosses/{id}/fight` — Challenge a Demigod in turn-based combat
-- `GET /api/badges` — View all achievements and unlock status
+### Authentication
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `POST` | `/api/auth/register` | Create an account and initialize the character with starter equipment |
+| `POST` | `/api/auth/login` | Authenticate a user and issue a JWT access token with a refresh cookie |
+| `POST` | `/api/auth/refresh` | Rotate and refresh expired access tokens |
+
+### Character & Progression
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/character` | Retrieve character statistics, level progression, and effective attributes |
+
+### Quests
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/quests` | Retrieve active, completed, or all quests |
+| `POST` | `/api/quests` | Create a new quest |
+| `POST` | `/api/quests/{id}/complete` | Complete a quest and claim Runes and Echoes |
+
+### Shop & Inventory
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/shop` | Browse available and locked items |
+| `POST` | `/api/shop/purchase` | Purchase items using Echoes |
+| `GET` | `/api/inventory` | Retrieve inventory contents and equipped loadout |
+| `POST` | `/api/inventory/equip` | Equip an item and recalculate character attributes |
+| `POST` | `/api/inventory/consume` | Consume a restorative potion and recover HP |
+
+### World & Combat
+
+| Method | Endpoint | Description |
+|---|---|---|
+| `GET` | `/api/map` | Retrieve Demigod encounters and their unlock states |
+| `POST` | `/api/bosses/{id}/fight` | Initiate a turn-based Demigod battle |
+| `GET` | `/api/badges` | Retrieve all achievements and their unlock status |
 
 ---
 
-## 🏛️ License
+## License
 
-Life RPG &copy; 2026. Built with honor and grit for productive Tarnished everywhere.
+**Life RPG © 2026**
+
+Built to turn everyday productivity into a structured, rewarding RPG progression experience.

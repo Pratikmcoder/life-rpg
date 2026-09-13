@@ -1,0 +1,7 @@
+[build]
+buildCommand = "npm install && npm run build && npm install -g serve"
+
+[deploy]
+startCommand = "serve -s dist -l $PORT"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3

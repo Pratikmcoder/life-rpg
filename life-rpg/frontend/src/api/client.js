@@ -9,8 +9,10 @@ export const setAccessToken = (token) => {
 
 export const getAccessToken = () => inMemoryToken
 
+const API_BASE = import.meta.env.VITE_API_URL || '/api'
+
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: API_BASE,
   withCredentials: true, // required for HttpOnly refresh cookie
   headers: {
     'Content-Type': 'application/json',
@@ -64,7 +66,7 @@ api.interceptors.response.use(
       isRefreshing = true
 
       try {
-        const { data } = await axios.post('/api/auth/refresh', {}, { withCredentials: true })
+        const { data } = await axios.post(`${API_BASE}/auth/refresh`, {}, { withCredentials: true })
         const newToken = data.access_token
         setAccessToken(newToken)
         processQueue(null, newToken)

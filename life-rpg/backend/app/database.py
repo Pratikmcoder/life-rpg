@@ -13,22 +13,32 @@ async def connect_db():
     global _client
     settings = get_settings()
     
-    # Configure TLS/SSL for MongoDB Atlas on Windows
+    uri = settings.mongodb_uri
     kwargs = {}
-    if "mongodb+srv://" in settings.mongodb_uri or "ssl=true" in settings.mongodb_uri.lower() or "tls=true" in settings.mongodb_uri.lower() or ".mongodb.net" in settings.mongodb_uri:
-        kwargs["tlsCAFile"] = certifi.where()
+    
+    # Only use TLS/certifi for MongoDB Atlas connections
+    is_atlas = "mongodb+srv://" in uri or ".mongodb.net" in uri
+    if is_atlas:
+        try:
+            import certifi
+            kwargs["tlsCAFile"] = certifi.where()
+        except ImportError:
+            pass  # certifi not available, let driver handle TLS
     
     try:
-        _client = AsyncIOMotorClient(settings.mongodb_uri, **kwargs)
+        _client = AsyncIOMotorClient(uri, **kwargs)
         # Ping to verify connection
         await _client.admin.command("ping")
         print(f"✅ Connected to MongoDB: {settings.mongodb_db_name}")
     except Exception as e:
-        print(f"⚠️ Initial connection failed ({e}). Retrying with TLS fallback...")
-        kwargs["tlsAllowInvalidCertificates"] = True
-        _client = AsyncIOMotorClient(settings.mongodb_uri, **kwargs)
-        await _client.admin.command("ping")
-        print(f"✅ Connected to MongoDB (TLS fallback): {settings.mongodb_db_name}")
+        if is_atlas:
+            print(f"⚠️ Initial connection failed ({e}). Retrying with TLS fallback...")
+            kwargs["tlsAllowInvalidCertificates"] = True
+            _client = AsyncIOMotorClient(uri, **kwargs)
+            await _client.admin.command("ping")
+            print(f"✅ Connected to MongoDB (TLS fallback): {settings.mongodb_db_name}")
+        else:
+            raise
 
 
 async def close_db():

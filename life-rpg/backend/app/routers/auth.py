@@ -17,12 +17,13 @@ router = APIRouter(prefix="/api/auth", tags=["auth"])
 
 def _set_refresh_cookie(response: Response, token: str):
     settings = get_settings()
+    is_prod = settings.environment == "production"
     response.set_cookie(
         key="refresh_token",
         value=token,
         httponly=True,
-        secure=settings.environment == "production",
-        samesite="strict",
+        secure=is_prod,
+        samesite="none" if is_prod else "lax",
         max_age=settings.refresh_token_expire_days * 86400,
         path="/api/auth/refresh",
     )

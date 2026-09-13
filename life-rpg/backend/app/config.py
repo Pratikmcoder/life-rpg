@@ -18,6 +18,7 @@ class Settings(BaseSettings):
 
     # App
     environment: str = "development"
+    port: int = 8000
 
     model_config = SettingsConfigDict(
         env_file=".env",

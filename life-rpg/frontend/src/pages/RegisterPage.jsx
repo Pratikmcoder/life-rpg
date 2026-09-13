@@ -26,6 +26,14 @@ export const RegisterPage = () => {
       })
       return
     }
+    if (!/\d/.test(password)) {
+      addToast({
+        title: 'Weak Password',
+        message: 'Password must contain at least one number.',
+        type: 'error',
+      })
+      return
+    }
 
     setIsLoading(true)
 
@@ -39,9 +47,17 @@ export const RegisterPage = () => {
       navigate('/dashboard')
     } catch (err) {
       console.error(err)
+      let errorMessage = 'Failed to create account'
+      const detail = err.response?.data?.detail
+      if (typeof detail === 'string') {
+        errorMessage = detail
+      } else if (Array.isArray(detail) && detail.length > 0) {
+        errorMessage = detail[0].msg.replace('Value error, ', '')
+      }
+
       addToast({
         title: 'Registration Failed',
-        message: err.response?.data?.detail || 'Failed to create account',
+        message: errorMessage,
         type: 'error',
       })
     } finally {

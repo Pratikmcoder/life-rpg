@@ -26,7 +26,7 @@ const AppContent = () => {
   else if (location.pathname.startsWith('/quests')) bgImage = '/quests_bg.jpg'
   else if (location.pathname.startsWith('/shop')) bgImage = '/shop_bg.jpg'
   else if (location.pathname.startsWith('/inventory')) bgImage = '/pouch_bg.jpg'
-  else if (location.pathname.startsWith('/boss')) bgImage = '/bg_2.jpg'
+  else if (location.pathname.startsWith('/boss')) bgImage = '/boss_bg.jpg'
   else if (location.pathname.startsWith('/badges')) bgImage = '/badges_bg.jpg'
   else if (location.pathname.startsWith('/settings')) bgImage = '/settings_bg.jpg'
 

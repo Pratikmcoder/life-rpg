@@ -102,7 +102,7 @@ export const DashboardPage = () => {
                 justifyContent: 'space-between',
                 flexWrap: 'wrap',
                 gap: '1rem',
-                background: 'linear-gradient(90deg, rgba(91, 45, 142, 0.25) 0%, rgba(23, 24, 36, 0.9) 100%)',
+                background: 'rgba(10, 10, 14, 0.85)',
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>

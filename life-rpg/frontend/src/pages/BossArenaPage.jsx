@@ -120,33 +120,33 @@ export const BossArenaPage = () => {
 
       if (data.shield_consumed) {
         addToast({
-        title: 'Gear Consumed in Battle',
-        message: `Your equipped ${data.consumed_shield_name || 'gear'} was consumed defending in combat.`,
-        type: 'info',
-      })
-    }
-
-    if (data.outcome === 'victory') {
-      setBattleState('victory')
-      playSound('victory', soundMuted)
-
-      if (data.first_time_victory) {
-        addToast({
-          title: 'DEMIGOD FELLED!',
-          message: `First Victory: +${data.runes_earned} Runes, +${data.echoes_earned} Echoes!`,
-          type: 'runes',
+          title: 'Gear Consumed in Battle',
+          message: `Your equipped ${data.consumed_shield_name || 'gear'} was consumed defending in combat.`,
+          type: 'info',
         })
       }
 
-      if (data.newly_awarded_badges?.length > 0) {
-        data.newly_awarded_badges.forEach((bKey) => {
+      if (data.outcome === 'victory') {
+        setBattleState('victory')
+        playSound('victory', soundMuted)
+
+        if (data.first_time_victory) {
           addToast({
-            title: 'Medallion Unlocked!',
-            message: `Earned "${bKey.replace(/_/g, ' ').toUpperCase()}" medallion!`,
-            type: 'badge',
+            title: 'DEMIGOD FELLED!',
+            message: `First Victory: +${data.runes_earned} Runes, +${data.echoes_earned} Echoes!`,
+            type: 'runes',
           })
-        })
-      }
+        }
+
+        if (data.newly_awarded_badges?.length > 0) {
+          data.newly_awarded_badges.forEach((bKey) => {
+            addToast({
+              title: 'Medallion Unlocked!',
+              message: `Earned "${bKey.replace(/_/g, ' ').toUpperCase()}" medallion!`,
+              type: 'badge',
+            })
+          })
+        }
       } else {
         setBattleState('defeat')
         playSound('defeat', soundMuted)
@@ -203,7 +203,8 @@ export const BossArenaPage = () => {
       <div
         className="pixel-panel-crimson"
         style={{
-          background: 'radial-gradient(ellipse at 50% 40%, rgba(91, 45, 142, 0.35) 0%, #0c0d15 85%)',
+          background: 'rgba(12, 13, 21, 0.5)',
+          backdropFilter: 'blur(2px)',
           padding: '2rem 1.5rem',
           marginBottom: '1.5rem',
           minHeight: '340px',
@@ -381,7 +382,7 @@ export const BossArenaPage = () => {
                 <button
                   onClick={resetBattle}
                   className="pixel-btn"
-                  style={{ padding: '0.75rem 1.5rem', background: '#34495e', color: '#fff', border: '2px solid #2c3e50' }}
+                  style={{ padding: '0.75rem 1.5rem', background: '#1a242f', color: '#ccc', border: '2px solid #2c3e50' }}
                 >
                   Replay Trial
                 </button>

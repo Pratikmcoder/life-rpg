@@ -131,7 +131,7 @@ export const BadgesPage = () => {
                   </div>
 
                   <p style={{
-                    fontSize: '0.8rem',
+                    fontSize: '0.95rem',
                     color: isEarned ? 'var(--color-text)' : 'var(--color-text-muted)',
                     lineHeight: 1.3,
                     marginBottom: '0.5rem',

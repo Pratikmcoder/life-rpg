@@ -169,8 +169,8 @@ export const InventoryPage = () => {
                       justifyContent: 'space-between',
                       padding: '0.85rem',
                       background: 'rgba(0,0,0,0.45)',
-                      border: `1.5px solid ${rarityColor}`,
-                      boxShadow: item ? `0 0 10px ${rarityColor}22` : 'none',
+                      border: '1px solid #232430',
+                      boxShadow: 'none',
                     }}
                   >
                     <div>
@@ -185,44 +185,44 @@ export const InventoryPage = () => {
                       }}>
                         <span style={{
                           fontFamily: 'var(--font-pixel)',
-                          fontSize: '0.55rem',
+                          fontSize: '0.75rem',
                           color: 'var(--color-text-dim)',
                           textTransform: 'uppercase',
                         }}>
-                          {SLOT_ICONS[slotKey]} {slotKey}
+                          {slotKey}
                         </span>
 
                       </div>
 
                       {/* Icon & Name */}
-                      <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem' }}>
-                        <div style={{
-                          fontSize: '2rem',
-                          width: '48px',
-                          height: '48px',
-                          background: 'rgba(0,0,0,0.5)',
-                          border: `1px solid ${rarityColor}`,
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                        }}>
-                          {typeof icon === 'string' && icon.startsWith('/') ? (
-                            <img src={icon} alt="" style={{ width: '85%', height: '85%', objectFit: 'contain', filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.8))' }} />
-                          ) : (
-                            icon
-                          )}
-                        </div>
-                        <div>
+                      {item ? (
+                        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center', marginBottom: '0.75rem' }}>
                           <div style={{
-                            fontFamily: 'var(--font-title)',
-                            fontSize: '1rem',
-                            fontWeight: item ? 'bold' : 'normal',
-                            color: item ? rarityColor : 'var(--color-text-muted)',
-                            marginBottom: '0.2rem',
+                            fontSize: '2rem',
+                            width: '48px',
+                            height: '48px',
+                            background: 'rgba(0,0,0,0.5)',
+                            border: `1px solid ${rarityColor}`,
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
                           }}>
-                            {item ? item.name : 'Empty Slot'}
+                            {typeof icon === 'string' && icon.startsWith('/') ? (
+                              <img src={icon} alt="" style={{ width: '85%', height: '85%', objectFit: 'contain', filter: 'drop-shadow(0 0 4px rgba(0,0,0,0.8))' }} />
+                            ) : (
+                              icon
+                            )}
                           </div>
-                          {item && (
+                          <div>
+                            <div style={{
+                              fontFamily: 'var(--font-title)',
+                              fontSize: '1rem',
+                              fontWeight: 'bold',
+                              color: rarityColor,
+                              marginBottom: '0.2rem',
+                            }}>
+                              {item.name}
+                            </div>
                             <div style={{
                               fontFamily: 'var(--font-pixel)',
                               fontSize: '0.55rem',
@@ -231,31 +231,51 @@ export const InventoryPage = () => {
                             }}>
                               {item.rarity}
                             </div>
-                          )}
+                          </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div style={{ 
+                          display: 'flex', 
+                          alignItems: 'center', 
+                          justifyContent: 'center', 
+                          padding: '1.5rem 0',
+                          marginBottom: '0.75rem',
+                          background: 'rgba(0,0,0,0.2)',
+                          border: '1px dashed rgba(255,255,255,0.1)',
+                        }}>
+                          <div style={{
+                            fontFamily: 'var(--font-title)',
+                            fontSize: '0.9rem',
+                            color: 'var(--color-text-muted)',
+                            letterSpacing: '1px',
+                            textTransform: 'uppercase'
+                          }}>
+                            EMPTY SLOT
+                          </div>
+                        </div>
+                      )}
 
                       {/* Stat summary */}
                       {item ? (
                         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                           {item.strength_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#f1c40f', background: 'rgba(241,196,15,0.1)', padding: '2px 6px', border: '1px solid #7a6530' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-gold-bright)', background: 'transparent', padding: '2px 6px', border: '1px solid var(--color-gold-dim)' }}>
                               +{item.strength_bonus} ATTACK
                             </span>
                           )}
                           {item.poise_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7', background: 'rgba(189,195,199,0.1)', padding: '2px 6px', border: '1px solid #4e595a' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-text)', background: 'transparent', padding: '2px 6px', border: '1px solid var(--color-border)' }}>
                               +{item.poise_bonus} POISE
                             </span>
                           )}
                           {item.vigor_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#e74c3c', background: 'rgba(231,76,60,0.1)', padding: '2px 6px', border: '1px solid #751a1a' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-crimson-bright)', background: 'transparent', padding: '2px 6px', border: '1px solid #5a1414' }}>
                               +{item.vigor_bonus} VIGOR
                             </span>
                           )}
                         </div>
                       ) : (
-                        <div style={{ fontSize: '0.7rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', fontStyle: 'italic' }}>
+                        <div style={{ fontSize: '1rem', color: 'var(--color-text-muted)', marginBottom: '0.75rem', fontStyle: 'italic', textAlign: 'center' }}>
                           Equip gear from pouch below
                         </div>
                       )}
@@ -326,7 +346,8 @@ export const InventoryPage = () => {
                       key={item.inventory_id || item.item_key}
                       style={{
                         background: 'rgba(0,0,0,0.3)',
-                        border: `1px solid ${rarityColor}`,
+                        border: '1px solid #232430',
+                        boxShadow: 'none',
                         padding: '0.85rem',
                         display: 'flex',
                         flexDirection: 'column',
@@ -397,17 +418,17 @@ export const InventoryPage = () => {
                         {/* Stat summary */}
                         <div style={{ display: 'flex', gap: '0.6rem', flexWrap: 'wrap', marginBottom: '1.25rem' }}>
                           {item.strength_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#f1c40f', background: 'rgba(241,196,15,0.1)', padding: '2px 6px', border: '1px solid #7a6530' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-gold-bright)', background: 'transparent', padding: '2px 6px', border: '1px solid var(--color-gold-dim)' }}>
                               +{item.strength_bonus} ATTACK
                             </span>
                           )}
                           {item.poise_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#bdc3c7', background: 'rgba(189,195,199,0.1)', padding: '2px 6px', border: '1px solid #4e595a' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-text)', background: 'transparent', padding: '2px 6px', border: '1px solid var(--color-border)' }}>
                               +{item.poise_bonus} POISE
                             </span>
                           )}
                           {item.vigor_bonus > 0 && (
-                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: '#e74c3c', background: 'rgba(231,76,60,0.1)', padding: '2px 6px', border: '1px solid #751a1a' }}>
+                            <span style={{ fontSize: '0.75rem', fontFamily: 'var(--font-stat)', color: 'var(--color-crimson-bright)', background: 'transparent', padding: '2px 6px', border: '1px solid #5a1414' }}>
                               +{item.vigor_bonus} VIGOR
                             </span>
                           )}

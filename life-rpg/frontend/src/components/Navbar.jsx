@@ -57,7 +57,7 @@ export const Navbar = () => {
             textDecoration: 'none',
           }}
         >
-          <img src="/flame.svg" alt="Life RPG Flame" style={{ width: '28px', height: '28px' }} className="flame-flicker" />
+          <img src="/logo.png" alt="Life RPG Logo" style={{ width: '32px', height: '32px' }} />
           <span style={{
             fontFamily: 'var(--font-pixel)',
             fontSize: '1rem',
@@ -100,7 +100,6 @@ export const Navbar = () => {
                     transition: 'all 0.15s ease',
                   }}
                 >
-                  <span style={{ fontSize: '0.9rem' }}>{item.icon}</span>
                   <span>{item.label}</span>
                 </Link>
               )

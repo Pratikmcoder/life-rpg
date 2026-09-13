@@ -95,12 +95,12 @@ export const SettingsPage = () => {
         {/* Character Profile Section */}
         <div className="pixel-panel" style={{ padding: '1.5rem' }}>
           <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '1.1rem', color: 'var(--color-gold)', marginBottom: '1rem' }}>
-            👑 Tarnished Identity
+            Tarnished Identity
           </h2>
 
           <form onSubmit={handleUpdateName}>
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
+              <label style={{ display: 'block', fontSize: '1.25rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
                 Character Name
               </label>
               <input
@@ -134,13 +134,13 @@ export const SettingsPage = () => {
         {/* Audio & Sound Preferences */}
         <div className="pixel-panel" style={{ padding: '1.5rem' }}>
           <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '1.1rem', color: 'var(--color-gold)', marginBottom: '1rem' }}>
-            🔊 Sound FX & Audio
+            Sound FX & Audio
           </h2>
 
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <div>
-              <div style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>8-Bit Retro Synthesizer SFX</div>
-              <div style={{ fontSize: '0.8rem', color: 'var(--color-text-dim)' }}>
+              <div style={{ fontSize: '1.25rem', fontWeight: 'bold' }}>8-Bit Retro Synthesizer SFX</div>
+              <div style={{ fontSize: '1.05rem', color: 'var(--color-text-dim)' }}>
                 Plays combat strikes, quest completions, level-up fanfares, and coin clinks.
               </div>
             </div>
@@ -154,7 +154,7 @@ export const SettingsPage = () => {
                 color: soundMuted ? '#ff7675' : 'var(--color-success-bright)',
               }}
             >
-              {soundMuted ? '🔇 Audio Muted' : '🔊 Audio Active'}
+              {soundMuted ? 'Audio Muted' : 'Audio Active'}
             </button>
           </div>
         </div>
@@ -162,12 +162,12 @@ export const SettingsPage = () => {
         {/* Change Password */}
         <div className="pixel-panel" style={{ padding: '1.5rem' }}>
           <h2 style={{ fontFamily: 'var(--font-title)', fontSize: '1.1rem', color: 'var(--color-gold)', marginBottom: '1rem' }}>
-            🛡️ Seal Password
+            Seal Password
           </h2>
 
           <form onSubmit={handleChangePassword}>
             <div style={{ marginBottom: '1rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
+              <label style={{ display: 'block', fontSize: '1.25rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
                 Current Password
               </label>
               <input
@@ -188,7 +188,7 @@ export const SettingsPage = () => {
             </div>
 
             <div style={{ marginBottom: '1.25rem' }}>
-              <label style={{ display: 'block', fontSize: '0.8rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
+              <label style={{ display: 'block', fontSize: '1.25rem', color: 'var(--color-text-dim)', marginBottom: '0.35rem' }}>
                 New Password (Min 8 characters)
               </label>
               <input

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import api from '../api/client'
 import { useAuth } from '../context/AuthContext'
 import { playSound } from '../utils/sfx'
+import { BOSS_ICONS } from '../utils/constants'
 
 /*
  * Boss icon positions mapped to the generated dark fantasy map background.
@@ -23,14 +24,6 @@ const BOSS_POSITIONS = {
   eternal_sovereign: { x: 82,  y: 22 },
 }
 
-/* Horror-themed icons per boss — dark skull/symbol style */
-const BOSS_ICONS = {
-  gravekeeper:       '/gravekeeper.png',
-  shadow_warden:     '/shadow_warden.png',
-  queen_of_ash:      '/queen_of_ash.png',
-  void_sovereign:    '/void_sovereign.png',
-  eternal_sovereign: '/eternal_sovereign.png',
-}
 
 export const MapPage = () => {
   const { soundMuted } = useAuth()

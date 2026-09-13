@@ -5,6 +5,7 @@ import { useAuth } from '../context/AuthContext'
 import { CharacterCard } from '../components/CharacterCard'
 import { QuestItem } from '../components/QuestItem'
 import { CreateQuestModal } from '../components/CreateQuestModal'
+import { BOSS_ICONS } from '../utils/constants'
 
 export const DashboardPage = () => {
   const { character } = useAuth()
@@ -108,10 +109,23 @@ export const DashboardPage = () => {
                 <div style={{
                   fontSize: '2rem',
                   background: 'rgba(0,0,0,0.5)',
-                  padding: '0.5rem',
+                  padding: '0.2rem',
                   border: '1px solid var(--color-arcane)',
+                  width: '64px',
+                  height: '64px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}>
-                  👹
+                  {BOSS_ICONS[nextBoss.boss_key] ? (
+                    <img
+                      src={BOSS_ICONS[nextBoss.boss_key]}
+                      alt={nextBoss.name}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                    />
+                  ) : (
+                    '👹'
+                  )}
                 </div>
                 <div>
                   <div style={{

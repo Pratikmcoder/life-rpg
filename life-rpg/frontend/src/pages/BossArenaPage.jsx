@@ -4,6 +4,7 @@ import api from '../api/client'
 import { useAuth } from '../context/AuthContext'
 import { useToast } from '../context/ToastContext'
 import { playSound } from '../utils/sfx'
+import { BOSS_ICONS } from '../utils/constants'
 import { PixelAvatar } from '../components/PixelAvatar'
 
 export const BossArenaPage = () => {
@@ -303,8 +304,17 @@ export const BossArenaPage = () => {
               alignItems: 'center',
               justifyContent: 'center',
               fontSize: '3.5rem',
+              overflow: 'hidden',
             }}>
-              👹
+              {BOSS_ICONS[boss.boss_key] ? (
+                <img
+                  src={BOSS_ICONS[boss.boss_key]}
+                  alt={boss.name}
+                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                />
+              ) : (
+                '👹'
+              )}
             </div>
             <div style={{
               fontFamily: 'var(--font-title)',
